@@ -18,18 +18,18 @@ class User(Base):
     user_surname= Column(String(25), nullable=True)
     user_email= Column(String(45), nullable=False, unique=True)
 
+class Post(Base):
+    __tablename__ = 'post'
+    id = Column(Integer, primary_key=True)
+    text= Column(String(300), nullable=False)
+    user_id = Column(Integer, ForeignKey('user.id'))
+
 class Media(Base):
     __tablename__ = 'media'
     id = Column(Integer, primary_key=True)
     url = Column(String(300), nullable=False)
     post_id = Column(Integer, ForeignKey('post.id'))
     post = relationship(Post)
-
-class Post(Base):
-    __tablename__ = 'post'
-    id = Column(Integer, primary_key=True)
-    text= Column(String(300), nullable=False)
-    user_id = Column(Integer, ForeignKey('user.id'))
 
 class Follower(Base):
     __tablename__ = 'follower'
@@ -46,8 +46,8 @@ class Comment(Base):
     user = relationship(User)
     post = relationship(Post)
 
-
-
+    def to_dict(self):
+        return {}
 # class Address(Base):
 #     __tablename__ = 'address'
 #     # Here we define columns for the table address.
